@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./App.css";
 
 import SearchBar from "../SearchBar/SearchBar";
@@ -8,7 +8,7 @@ import Playlist from "../Playlist/Playlist";
 export default function App() {
   const [searchResults, setSearchResults] = useState([
     {
-      name: "Example Track Name",
+      name: "Example Track Name 1",
       artist: "Example Track Artist",
       album: "Example Track Album",
       id: 1,
@@ -20,6 +20,37 @@ export default function App() {
       id: 2,
     },
   ]);
+  const [playlistName, setPlaylistName] = useState("New Playlist");
+  const [playlistTracks, setPlaylistTracks] = useState([
+    {
+      name: "Example Playlist Track Name 3",
+      artist: "Example Playlist Track Artist",
+      album: "Example Playlist Track Album",
+      id: 3,
+    },
+    {
+      name: "Example Playlist Track Name 4",
+      artist: "Example Playlist Track Artist",
+      album: "Example Playlist Track Album",
+      id: 4,
+    },
+  ]);
+
+  const addTrack = useCallback(
+    (track) => {
+      if (playlistTracks.some((savedTrack) => savedTrack.id === track.id))
+        return;
+
+      setPlaylistTracks((prevTracks) => [...prevTracks, track]);
+    },
+    [playlistTracks]
+  );
+  // this filter method will return a new array with the previus tracks except the track that was clicked.
+  const removeTrack = useCallback((track) => {
+    setPlaylistTracks((prevTracks) =>
+      prevTracks.filter((currentTrack) => currentTrack.id !== track.id)
+    );
+  }, []);
 
   return (
     <div>
@@ -29,8 +60,12 @@ export default function App() {
       <div className="App">
         <SearchBar />
         <div className="App-playlist">
-          <SearchResults searchResults={searchResults} />
-          <Playlist />
+          <SearchResults searchResults={searchResults} onAdd={addTrack} />
+          <Playlist
+            playlistName={playlistName}
+            playlistTracks={playlistTracks}
+            onRemove={removeTrack}
+          />
         </div>
       </div>
     </div>
