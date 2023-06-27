@@ -23,7 +23,7 @@ export default function App() {
     },
     [playlistTracks]
   );
-  // this filter method will return a new array with the previus tracks except the track that was clicked.
+  // this filter method will return a new array with the previous tracks except the track that was clicked.
   const removeTrack = useCallback((track) => {
     setPlaylistTracks((prevTracks) =>
       prevTracks.filter((currentTrack) => currentTrack.id !== track.id)
