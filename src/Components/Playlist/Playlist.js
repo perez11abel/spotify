@@ -3,7 +3,6 @@ import "./Playlist.css";
 import TrackList from "../TrackList/TrackList";
 
 export default function Playlist({
-  playlistName,
   playlistTracks,
   onRemove,
   onNameChange,
